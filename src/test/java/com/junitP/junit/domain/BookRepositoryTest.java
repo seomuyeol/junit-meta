@@ -1,5 +1,7 @@
 package com.junitP.junit.domain;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -13,7 +15,23 @@ public class BookRepositoryTest {
 	// 1. book 登録テスト
 	@Test
 	public void book_登録() {
-		System.out.println("book 登録テスト実行");
+		//given (データの準備)
+		String title = "junit";
+		String author = "coding";
+		Book book = Book.builder()
+				.title(title)
+				.author(author)
+				.build();
+		
+		
+		//when (テスト実行)
+		Book bookPS = bookRepository.save(book);
+		
+		
+		//then (検証)
+		assertEquals(title, bookPS.getTitle());
+		assertEquals(author, bookPS.getAuthor());
+//		System.out.println(bookPS.getTitle());
 	}
 	
 	// 2. book リスト
