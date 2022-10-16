@@ -103,7 +103,7 @@ public class BookRepositoryTest {
 	
 	// 5. book 修正
 	
-//	@Sql("classpath:db/tableInit.sql")
+	@Sql("classpath:db/tableInit.sql")
 	@Test
 	public void book_修正_test() {
 		//given
@@ -114,7 +114,7 @@ public class BookRepositoryTest {
 		Book book = new Book(id, title, author);
 		
 		//when
-		Book bookPS = bookRepository.save(book);
+		
 		
 //		bookRepository.findAll().stream()
 //			.forEach((b) -> {
@@ -123,8 +123,12 @@ public class BookRepositoryTest {
 //				System.out.println(b.getAuthor());
 //				System.out.println("--------------------------------------");
 //				});
-//		
-		System.out.println(bookPS.getTitle());
+		Book bookPS = bookRepository.save(book);
+//		System.out.println(bookPS.getId());
+//		System.out.println(bookPS.getTitle());
+//		System.out.println(bookPS.getAuthor());
+//		System.out.println("--------------------------------------");
+//		System.out.println(bookPS.getTitle());
 	
 
 		//then
