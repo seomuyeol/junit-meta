@@ -102,4 +102,35 @@ public class BookRepositoryTest {
 	}
 	
 	// 5. book 修正
+	
+//	@Sql("classpath:db/tableInit.sql")
+	@Test
+	public void book_修正_test() {
+		//given
+		
+		Long id = 1L;
+		String title = "new_junit";
+		String author = "new_coding";
+		Book book = new Book(id, title, author);
+		
+		//when
+		Book bookPS = bookRepository.save(book);
+		
+//		bookRepository.findAll().stream()
+//			.forEach((b) -> {
+//				System.out.println(b.getId());
+//				System.out.println(b.getTitle());
+//				System.out.println(b.getAuthor());
+//				System.out.println("--------------------------------------");
+//				});
+//		
+		System.out.println(bookPS.getTitle());
+	
+
+		//then
+		assertEquals(id, bookPS.getId());
+		assertEquals(title, bookPS.getTitle());
+		assertEquals(author, bookPS.getAuthor());
+		
+	}
 }
