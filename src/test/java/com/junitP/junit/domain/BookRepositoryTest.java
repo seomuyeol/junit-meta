@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.jdbc.Sql;
 
 @DataJpaTest //DB 関連のみテスト
 public class BookRepositoryTest {
@@ -66,6 +67,7 @@ public class BookRepositoryTest {
 	}
 	
 	// 3. book 詳細画面
+	@Sql("classpath:db/tableInit.sql")
 	@Test
 	public void bookSearch_test() {
 		//given
@@ -73,7 +75,8 @@ public class BookRepositoryTest {
 		String author = "coding";
 		
 		//when
-		Book bookPS = bookRepository.findById(1Ln).get();
+		Book bookPS = bookRepository.findById(1L).get();
+		
 
 		//then
 		assertEquals(title, bookPS.getTitle());
@@ -83,7 +86,20 @@ public class BookRepositoryTest {
 
 	}
 	
-	// 4. book 修正
+	// 4. book 削除
+	@Sql("classpath:db/tableInit.sql")
+	@Test
+	public void book_delete_test() {
+		//given
+		Long id = 1L;
+		
+		//when
+		bookRepository.deleteById(id);
+
+		//then
+//		Optional<Book> bookPS = bookRepository.findById(id);
+		assertFalse(bookRepository.findById(id).isPresent());
+	}
 	
-	// 5. book 削除
+	// 5. book 修正
 }
