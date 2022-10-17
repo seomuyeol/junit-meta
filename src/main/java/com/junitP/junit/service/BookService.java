@@ -2,6 +2,7 @@ package com.junitP.junit.service;
 
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class BookService {
 	
 	//1. book 登録
 	@Transactional(rollbackFor = RuntimeException.class)
-	public BookRespDto book_save(BookSaveReqDto dto) {
+	public BookRespDto bookSave(BookSaveReqDto dto) {
 		Book bookPS = bookRepository.save(dto.toEntity());
 		return new BookRespDto().toDto(bookPS);
 	}
@@ -36,8 +37,22 @@ public class BookService {
 	
 	
 	//3. book 詳細 search
+	public BookRespDto booksSearch(Long id) {
+		Optional<Book> bookOP = bookRepository.findById(id);
+		if(bookOP.isPresent()) {
+			return new BookRespDto().toDto(bookOP.get());
+		} else {
+			throw new RuntimeException("IDが見つかりません");
+		}
+	}
+	
 	
 	//4. book delete
+	@Transactional(rollbackFor = RuntimeException.class)
+	public void bookDelete(Long id) {
+		bookRepository.deleteById(id);
+	}
+	
 	
 	//5. book 修正
 }
