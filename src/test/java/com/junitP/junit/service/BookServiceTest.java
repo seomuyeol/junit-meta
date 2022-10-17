@@ -4,12 +4,16 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.junitP.junit.domain.Book;
 import com.junitP.junit.domain.BookRepository;
 import com.junitP.junit.util.MailSender;
 import com.junitP.junit.web.dto.BookRespDto;
@@ -47,9 +51,37 @@ public class BookServiceTest {
 		//then
 //		assertEquals(dto.getTitle(), bookRespDto.getTitle());
 //		assertEquals(dto.getAuthor(), bookRespDto.getAuthor());
-		assertThat(dto.getTitle()).isEqualTo(bookRespDto.getTitle());
-		assertThat(dto.getAuthor()).isEqualTo(bookRespDto.getAuthor());
+		assertThat(bookRespDto.getTitle()).isEqualTo(dto.getTitle());
+		assertThat(bookRespDto.getAuthor()).isEqualTo(dto.getAuthor());
 		
-
+	}
+	
+	@Test
+	public void bookListTest() {
+		//given(パラメータから入るデータ)
+		
+		//stub(仮説)
+		List<Book> books = new ArrayList<>();
+		books.add(new Book(1L, "junit-seo", "meta-seo"));
+		books.add(new Book(2L, "spring-seo", "coding-seo"));
+		when(bookRepository.findAll()).thenReturn(books);
+		
+		//when(実行)
+		List<BookRespDto> bookRespDtoList = bookService.bookList();
+		
+		//print
+		bookRespDtoList.stream().forEach((dto)-> {
+			System.out.println(dto.getId());
+			System.out.println(dto.getTitle());
+			System.out.println(dto.getAuthor());
+			System.out.println("2.-------------------------------------------------------------------------");
+		});
+		
+		//then（検証）
+		assertThat(bookRespDtoList.get(0).getTitle()).isEqualTo("junit-seo");
+		assertThat(bookRespDtoList.get(0).getAuthor()).isEqualTo("meta-seo");
+		assertThat(bookRespDtoList.get(1).getTitle()).isEqualTo("spring-seo");
+		assertThat(bookRespDtoList.get(1).getAuthor()).isEqualTo("coding-seo");
+		
 	}
 }

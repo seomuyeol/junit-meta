@@ -32,14 +32,25 @@ public class BookService {
 				throw new RuntimeException("メールの転送が失敗しました。");
 			}
 		}
-		return new BookRespDto().toDto(bookPS);
+		return bookPS.toDto();
 	}
 
 	//2. book list
 	public List<BookRespDto> bookList() {
-		return bookRepository.findAll().stream()
-				.map(new BookRespDto()::toDto)
+		List<BookRespDto> dtos = bookRepository.findAll().stream()
+				//.map((bookPS) -> bookPS.toDto())
+			    .map(Book::toDto)
 				.collect(Collectors.toList());
+		
+		//print
+		dtos.stream().forEach((dto)-> {
+			System.out.println(dto.getId());
+			System.out.println(dto.getTitle());
+			System.out.println(dto.getAuthor());
+			System.out.println("1.-------------------------------------------------------------------------");
+		});
+		
+		return dtos;
 	}
 	
 	
@@ -47,7 +58,8 @@ public class BookService {
 	public BookRespDto booksSearch(Long id) {
 		Optional<Book> bookOP = bookRepository.findById(id);
 		if(bookOP.isPresent()) {
-			return new BookRespDto().toDto(bookOP.get());
+			Book bookPS = bookOP.get();
+			return bookPS.toDto();
 		} else {
 			throw new RuntimeException("IDが見つかりません");
 		}
