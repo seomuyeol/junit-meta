@@ -75,11 +75,12 @@ public class BookService {
 	
 	//5. book 修正
 	@Transactional(rollbackFor = RuntimeException.class)
-	public void bookCollection(Long id, BookSaveReqDto dto) {
+	public BookRespDto bookCollection(Long id, BookSaveReqDto dto) {
 		Optional<Book> bookOP = bookRepository.findById(id);
 		if(bookOP.isPresent()) {
 			Book bookPS = bookOP.get();
 			bookPS.update(dto.getTitle(), dto.getAuthor());
+			return bookPS.toDto();
 		} else {
 			throw new RuntimeException("IDが見つかりません");
 		}

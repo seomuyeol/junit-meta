@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -84,4 +85,49 @@ public class BookServiceTest {
 		assertThat(bookRespDtoList.get(1).getAuthor()).isEqualTo("coding-seo");
 		
 	}
+	
+	@Test
+	public void bookSearchTest() {
+		//given
+		Long id = 1L;
+		
+		//stub
+		Book book = new Book(1L, "junit-1", "coding-1");
+		Optional<Book> bookOP = Optional.of(book);
+		when(bookRepository.findById(id)).thenReturn(bookOP);
+		
+		//when
+		BookRespDto bookRespDto = bookService.booksSearch(id);
+		
+		//then
+		assertThat(bookRespDto.getTitle()).isEqualTo(book.getTitle());
+		assertThat(bookRespDto.getAuthor()).isEqualTo(book.getAuthor());
+	}
+	
+	@Test
+	public void bookCollectionTest() {
+		//given
+		Long id = 1L;
+		BookSaveReqDto dto = new BookSaveReqDto();
+		dto.setTitle("junit-seo");
+		dto.setAuthor("coding-seo");
+		
+		//stub
+		Book book = new Book(1L, "junit-1", "coding-1");
+		Optional<Book> bookOP = Optional.of(book);
+		when(bookRepository.findById(id)).thenReturn(bookOP);
+	
+		//when
+		BookRespDto bookRespDto = bookService.bookCollection(id, dto);
+		
+		//then
+		assertThat(bookRespDto.getTitle()).isEqualTo(dto.getTitle());
+		assertThat(bookRespDto.getAuthor()).isEqualTo(dto.getAuthor());
+		
+	}
+	
+	
+	
+	
+	
 }
