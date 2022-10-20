@@ -12,6 +12,7 @@ import com.junitP.junit.domain.Book;
 import com.junitP.junit.domain.BookRepository;
 import com.junitP.junit.util.MailSender;
 import com.junitP.junit.web.dto.request.BookSaveReqDto;
+import com.junitP.junit.web.dto.response.BookListRespDto;
 import com.junitP.junit.web.dto.response.BookRespDto;
 
 import lombok.RequiredArgsConstructor;
@@ -36,7 +37,7 @@ public class BookService {
 	}
 
 	//2. book list
-	public List<BookRespDto> bookList() {
+	public BookListRespDto bookList() {
 		List<BookRespDto> dtos = bookRepository.findAll().stream()
 				//.map((bookPS) -> bookPS.toDto())
 			    .map(Book::toDto)
@@ -50,7 +51,8 @@ public class BookService {
 			System.out.println("1.-------------------------------------------------------------------------");
 		});
 		
-		return dtos;
+		BookListRespDto bookListRespDto = BookListRespDto.builder().bookList(dtos).build();
+		return bookListRespDto;
 	}
 	
 	

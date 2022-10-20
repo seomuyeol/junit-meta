@@ -18,6 +18,7 @@ import com.junitP.junit.domain.Book;
 import com.junitP.junit.domain.BookRepository;
 import com.junitP.junit.util.MailSender;
 import com.junitP.junit.web.dto.request.BookSaveReqDto;
+import com.junitP.junit.web.dto.response.BookListRespDto;
 import com.junitP.junit.web.dto.response.BookRespDto;
 
 //@DataJpaTest //Tranjectional あるため、テスト後ロールバックします。
@@ -68,21 +69,13 @@ public class BookServiceTest {
 		when(bookRepository.findAll()).thenReturn(books);
 		
 		//when(実行)
-		List<BookRespDto> bookRespDtoList = bookService.bookList();
-		
-		//print
-		bookRespDtoList.stream().forEach((dto)-> {
-			System.out.println(dto.getId());
-			System.out.println(dto.getTitle());
-			System.out.println(dto.getAuthor());
-			System.out.println("2.-------------------------------------------------------------------------");
-		});
+		BookListRespDto bookListRespDto = bookService.bookList();
 		
 		//then（検証）
-		assertThat(bookRespDtoList.get(0).getTitle()).isEqualTo("junit-seo");
-		assertThat(bookRespDtoList.get(0).getAuthor()).isEqualTo("meta-seo");
-		assertThat(bookRespDtoList.get(1).getTitle()).isEqualTo("spring-seo");
-		assertThat(bookRespDtoList.get(1).getAuthor()).isEqualTo("coding-seo");
+		assertThat(bookListRespDto.getItems().get(0).getTitle()).isEqualTo("junit-seo");
+		assertThat(bookListRespDto.getItems().get(0).getAuthor()).isEqualTo("meta-seo");
+		assertThat(bookListRespDto.getItems().get(1).getTitle()).isEqualTo("spring-seo");
+		assertThat(bookListRespDto.getItems().get(1).getAuthor()).isEqualTo("coding-seo");
 		
 	}
 	
