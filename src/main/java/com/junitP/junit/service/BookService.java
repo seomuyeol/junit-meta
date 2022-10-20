@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.junitP.junit.domain.Book;
 import com.junitP.junit.domain.BookRepository;
 import com.junitP.junit.util.MailSender;
-import com.junitP.junit.web.dto.BookRespDto;
-import com.junitP.junit.web.dto.BookSaveReqDto;
+import com.junitP.junit.web.dto.request.BookSaveReqDto;
+import com.junitP.junit.web.dto.response.BookRespDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -75,7 +75,7 @@ public class BookService {
 	
 	//5. book 修正
 	@Transactional(rollbackFor = RuntimeException.class)
-	public BookRespDto bookCollection(Long id, BookSaveReqDto dto) {
+	public BookRespDto bookUpdate(Long id, BookSaveReqDto dto) {
 		Optional<Book> bookOP = bookRepository.findById(id);
 		if(bookOP.isPresent()) {
 			Book bookPS = bookOP.get();

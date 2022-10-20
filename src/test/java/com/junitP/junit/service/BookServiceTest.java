@@ -17,8 +17,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.junitP.junit.domain.Book;
 import com.junitP.junit.domain.BookRepository;
 import com.junitP.junit.util.MailSender;
-import com.junitP.junit.web.dto.BookRespDto;
-import com.junitP.junit.web.dto.BookSaveReqDto;
+import com.junitP.junit.web.dto.request.BookSaveReqDto;
+import com.junitP.junit.web.dto.response.BookRespDto;
 
 //@DataJpaTest //Tranjectional あるため、テスト後ロールバックします。
 @ExtendWith(MockitoExtension.class)
@@ -105,7 +105,7 @@ public class BookServiceTest {
 	}
 	
 	@Test
-	public void bookCollectionTest() {
+	public void bookUpdateTest() {
 		//given
 		Long id = 1L;
 		BookSaveReqDto dto = new BookSaveReqDto();
@@ -118,7 +118,7 @@ public class BookServiceTest {
 		when(bookRepository.findById(id)).thenReturn(bookOP);
 	
 		//when
-		BookRespDto bookRespDto = bookService.bookCollection(id, dto);
+		BookRespDto bookRespDto = bookService.bookUpdate(id, dto);
 		
 		//then
 		assertThat(bookRespDto.getTitle()).isEqualTo(dto.getTitle());
