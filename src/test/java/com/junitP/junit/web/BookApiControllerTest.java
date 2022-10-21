@@ -17,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
-import com.junitP.junit.service.BookService;
 import com.junitP.junit.web.dto.request.BookSaveReqDto;
 
 import lombok.RequiredArgsConstructor;
@@ -27,9 +26,6 @@ import lombok.RequiredArgsConstructor;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class BookApiControllerTest {
 
-	@Autowired
-	private BookService bookService;
-	
 	@Autowired
 	private TestRestTemplate rt;
 	
